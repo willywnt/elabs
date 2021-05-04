@@ -16,7 +16,7 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Aplikasi Pertama menggunakan Framework React Native</Text>
-        <Text style={styles.title}>willy winata</Text>
+        <Text style={styles.title}>Ubah</Text>
       </View>
       <View style={styles.body}>
       </View>
