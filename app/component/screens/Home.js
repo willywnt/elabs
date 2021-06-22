@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
-  View, Text, StyleSheet, Image, StatusBar,
+  View, Text, StyleSheet, Image, StatusBar, ScrollView,
 } from 'react-native';
-import Screen from '../Screen';
+
 import CardMenu from '../card/CardMenu';
-import ScheduleDays from '../schedule/ScheduleDays';
-import AddSchedule from '../schedule/AddSchedule';
+import YourSchedule from '../schedule/YourSchedule';
+
+import { AuthContext } from '../context';
 
 export default function Home() {
+  const { storedUserToken, setStoredUserToken } = useContext(AuthContext);
+  const { name, avatar } = storedUserToken;
   return (
-    <Screen>
-      <View style={styles.container}>
-        <Image style={styles.image} source={require('../../../assets/foto/willy-winata.jpg')} />
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Image style={styles.image} source={{ uri: `https://elabsupnvj.my.id/laravel/storage/app/public/images/${avatar}` }} />
         <View style={styles.textContainer}>
-          <Text style={styles.textName}>Hi, Willy Winata</Text>
+          <Text style={styles.textName}>
+            Hi,
+            {name}
+          </Text>
           <Text style={styles.textLets}>Let’s make your schedule.</Text>
         </View>
       </View>
@@ -22,22 +28,35 @@ export default function Home() {
         <CardMenu />
       </View>
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>Your Schedule</Text>
-        <ScheduleDays />
+        <Text style={{
+          fontSize: 20,
+          color: '#1E1C61',
+          fontWeight: 'bold',
+        }}
+        >
+          Your Schedule
+        </Text>
       </View>
-      <AddSchedule />
-    </Screen>
+      <View style={styles.scheduleContainer}>
+        <YourSchedule />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#F4F7FF',
+    flex: 1,
+    marginBottom: 90,
+  },
+  header: {
+    marginTop: StatusBar.currentHeight,
     padding: 20,
     backgroundColor: '#FD9E00',
     flexDirection: 'row',
     borderBottomRightRadius: 35,
     borderBottomLeftRadius: 35,
-    marginTop: StatusBar.currentHeight,
   },
   image: {
     width: 65,
@@ -73,5 +92,12 @@ const styles = StyleSheet.create({
     color: '#1E1C61',
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  scheduleContainer: {
+    width: '90%',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: 20,
+    marginBottom: 40,
   },
 });

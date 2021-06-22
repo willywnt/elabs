@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Text, View, Image, TouchableWithoutFeedback,
+  Text, View, Image, TouchableHighlight, Button,
 } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -28,20 +28,25 @@ const Chat = ({ navigation }) => (
           fontSize: 24,
         },
         headerLeft: () => (
-          <TouchableWithoutFeedback
-            onPress={() => navigation.goBack()}
+          <TouchableHighlight
+            onPress={() => navigation.navigate('Home')}
+            activeOpacity={0.8}
+            underlayColor="#B9B9B9"
+            style={{
+              width: 40, height: 40, paddingLeft: 0, borderRadius: 40 / 2, justifyContent: 'center', marginLeft: 10,
+            }}
           >
             <Image
               source={require('../../../assets/icons/arrow-icon.png')}
               resizeMode="contain"
               style={{
-                width: 25,
-                height: 25,
-                marginLeft: 20,
+                width: 18,
+                height: 18,
+                alignSelf: 'center',
                 tintColor: 'black',
               }}
             />
-          </TouchableWithoutFeedback>
+          </TouchableHighlight>
         ),
       }}
     />
@@ -54,22 +59,27 @@ const Borrow = ({ navigation }) => (
       name="Borrow"
       component={BorrowScreen}
       options={{
-        headerTitleStyle: { alignSelf: 'center', marginLeft: -70, fontSize: 24 },
+        headerTitleStyle: { alignSelf: 'center', marginLeft: -60, fontSize: 24 },
         headerLeft: () => (
-          <TouchableWithoutFeedback
-            onPress={() => navigation.goBack()}
+          <TouchableHighlight
+            onPress={() => navigation.navigate('Home')}
+            activeOpacity={0.8}
+            underlayColor="#B9B9B9"
+            style={{
+              width: 40, height: 40, paddingLeft: 0, borderRadius: 40 / 2, justifyContent: 'center', marginLeft: 10,
+            }}
           >
             <Image
               source={require('../../../assets/icons/arrow-icon.png')}
               resizeMode="contain"
               style={{
-                width: 25,
-                height: 25,
-                marginLeft: 20,
+                width: 18,
+                height: 18,
+                alignSelf: 'center',
                 tintColor: 'black',
               }}
             />
-          </TouchableWithoutFeedback>
+          </TouchableHighlight>
         ),
       }}
     />
@@ -82,22 +92,27 @@ const Notification = ({ navigation }) => (
       name="Notification"
       component={NotificationScreen}
       options={{
-        headerTitleStyle: { alignSelf: 'center', marginLeft: -70, fontSize: 24 },
+        headerTitleStyle: { alignSelf: 'center', marginLeft: -60, fontSize: 24 },
         headerLeft: () => (
-          <TouchableWithoutFeedback
-            onPress={() => navigation.goBack()}
+          <TouchableHighlight
+            onPress={() => navigation.navigate('Home')}
+            activeOpacity={0.8}
+            underlayColor="#B9B9B9"
+            style={{
+              width: 40, height: 40, paddingLeft: 0, borderRadius: 40 / 2, justifyContent: 'center', marginLeft: 10,
+            }}
           >
             <Image
               source={require('../../../assets/icons/arrow-icon.png')}
               resizeMode="contain"
               style={{
-                width: 25,
-                height: 25,
-                marginLeft: 20,
+                width: 18,
+                height: 18,
+                alignSelf: 'center',
                 tintColor: 'black',
               }}
             />
-          </TouchableWithoutFeedback>
+          </TouchableHighlight>
         ),
       }}
     />
@@ -110,22 +125,27 @@ const Profile = ({ navigation }) => (
       name="Profile"
       component={ProfileScreen}
       options={{
-        headerTitleStyle: { alignSelf: 'center', marginLeft: -70, fontSize: 24 },
+        headerTitleStyle: { alignSelf: 'center', marginLeft: -60, fontSize: 24 },
         headerLeft: () => (
-          <TouchableWithoutFeedback
-            onPress={() => navigation.goBack()}
+          <TouchableHighlight
+            onPress={() => navigation.navigate('Home')}
+            activeOpacity={0.8}
+            underlayColor="#B9B9B9"
+            style={{
+              width: 40, height: 40, paddingLeft: 0, borderRadius: 40 / 2, justifyContent: 'center', marginLeft: 10,
+            }}
           >
             <Image
               source={require('../../../assets/icons/arrow-icon.png')}
               resizeMode="contain"
               style={{
-                width: 25,
-                height: 25,
-                marginLeft: 20,
+                width: 18,
+                height: 18,
+                alignSelf: 'center',
                 tintColor: 'black',
               }}
             />
-          </TouchableWithoutFeedback>
+          </TouchableHighlight>
         ),
       }}
     />
@@ -160,7 +180,7 @@ const TabNavigator = () => (
                 tintColor: focused ? '#F88409' : '#7B8BB2',
               }}
             />
-            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 12, marginTop: 5 }}>Home</Text>
+            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 14, marginTop: 5 }}>Home</Text>
           </View>
         ),
       }}
@@ -180,7 +200,7 @@ const TabNavigator = () => (
                 tintColor: focused ? '#F88409' : '#7B8BB2',
               }}
             />
-            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 12, marginTop: 5 }}>Chat</Text>
+            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 14, marginTop: 5 }}>Chat</Text>
           </View>
         ),
       }}
@@ -214,6 +234,12 @@ const TabNavigator = () => (
                 tintColor: '#ffffff',
               }}
             />
+            <Text style={{
+              color: focused ? '#F88409' : '#7B8BB2', fontSize: 14, position: 'absolute', bottom: -38,
+            }}
+            >
+              Borrow
+            </Text>
           </View>
         ),
       }}
@@ -233,7 +259,7 @@ const TabNavigator = () => (
                 tintColor: focused ? '#F88409' : '#7B8BB2',
               }}
             />
-            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 12, marginTop: 5 }}>Notification</Text>
+            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 14, marginTop: 5 }}>Notification</Text>
           </View>
         ),
       }}
@@ -253,7 +279,7 @@ const TabNavigator = () => (
                 tintColor: focused ? '#F88409' : '#7B8BB2',
               }}
             />
-            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 12, marginTop: 5 }}>Profile</Text>
+            <Text style={{ color: focused ? '#F88409' : '#7B8BB2', fontSize: 14, marginTop: 5 }}>Profile</Text>
           </View>
         ),
       }}

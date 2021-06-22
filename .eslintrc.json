@@ -24,6 +24,9 @@
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "react/jsx-props-no-spreading": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "jsx-no-duplicate-props": "off",
+        "default-case": "off",
+        "max-len":"off"
     }
 }

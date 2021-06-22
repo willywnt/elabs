@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-
-import Screen from '../Screen';
+import {
+  View, StyleSheet, Text, ScrollView,
+} from 'react-native';
 
 const Notification = () => (
-  <Screen>
-    <View style={styles.container}>
+  <ScrollView style={styles.container}>
+    <View style={styles.notificationContainer}>
       <View style={styles.notificationUnread}>
         <View style={styles.header}>
           <Text style={styles.title}>Admin</Text>
@@ -38,24 +38,23 @@ const Notification = () => (
         </View>
       </View>
     </View>
-  </Screen>
+  </ScrollView>
 );
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#F4F7FF',
     flex: 1,
-    marginTop: 7,
   },
-  notificationUnread: {
+  notificationContainer: {
+    marginTop: 10,
     width: '90%',
-    height: 100,
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: 7,
-    marginBottom: 7,
-    padding: 10,
+  },
+  notificationUnread: {
+    marginBottom: 10,
+    padding: 15,
     borderRadius: 10,
     backgroundColor: '#FED676',
   },
@@ -64,13 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   notificationRead: {
-    width: '90%',
-    height: 100,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 7,
-    marginBottom: 7,
-    padding: 10,
+    padding: 15,
+    marginBottom: 10,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
     borderColor: '#FED676',

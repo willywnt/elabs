@@ -1,27 +1,111 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View, StyleSheet, FlatList, TouchableOpacity, Image, Text,
+} from 'react-native';
 
-import Screen from '../Screen';
+const Messages = [
+  {
+    id: '1',
+    userName: 'Willy Winata',
+    userImg: require('../../../assets/foto/user-1.jpeg'),
+    messageTime: '4 mins ago',
+    messageText:
+          'Hey there, this is my test for a post of my social app in React Native.',
+  },
+  {
+    id: '2',
+    userName: 'Anggitha Septiana',
+    userImg: require('../../../assets/foto/user-2.jpeg'),
+    messageTime: '2 hours ago',
+    messageText:
+          'Hey there, this is my test for a post of my social app in React Native.',
+  },
+  {
+    id: '3',
+    userName: 'Annisa Rizky',
+    userImg: require('../../../assets/foto/user-3.jpeg'),
+    messageTime: '1 hours ago',
+    messageText:
+          'Hey there, this is my test for a post of my social app in React Native.',
+  },
+];
 
-const Chat = () => (
-  <Screen>
-    <View style={{
-      justifyContent: 'center',
-      alignItems: 'center',
-      flex: 1,
-    }}
-    >
-      <Text style={styles.text}>Chat</Text>
-    </View>
-  </Screen>
+const Chat = ({ navigation }) => (
+  <View style={{
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: '#F4F7FF',
+  }}
+  >
+    <FlatList
+      data={Messages}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('ChatScreen')}>
+          <View style={styles.UserInfo}>
+            <View style={styles.UserImgWrapper}>
+              <Image style={styles.UserImg} source={item.userImg} />
+            </View>
+            <View style={styles.TextSection}>
+              <View style={styles.UserInfoText}>
+                <Text style={styles.UserName}>{item.userName}</Text>
+                <Text style={styles.PostTime}>{item.messageTime}</Text>
+              </View>
+              <Text style={styles.MessageText}>{item.messageText}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      )}
+    />
+  </View>
 );
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 20,
+  card: {
+    width: '100%',
+  },
+  UserInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  UserImgWrapper: {
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  UserImg: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  TextSection: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 15,
+    paddingLeft: 0,
+    marginLeft: 10,
+    width: 300,
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc',
+  },
+  UserInfoText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  UserName: {
+    fontSize: 14,
     fontWeight: 'bold',
-    color: 'black',
+  },
+  PostTime: {
+    fontSize: 12,
+    color: '#666',
+  },
+  MessageText: {
+    fontSize: 14,
+    color: '#333333',
   },
 });
-
 export default Chat;
