@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  StyleSheet, ScrollView, ActivityIndicator, Dimensions, LogBox,
+  StyleSheet, ScrollView, ActivityIndicator, Dimensions,
 } from 'react-native';
 
 import axios from 'axios';
@@ -18,7 +18,7 @@ const Borrow1 = ({ route }) => {
   function callback() {
     const url = 'http://10.0.2.2:5000/computer';
     axios
-      .post(url, { komputer, hari: 'Senin' })
+      .post(url, { komputer })
       .then((response) => {
         const result = response.data;
         const { data } = result;
@@ -38,12 +38,8 @@ const Borrow1 = ({ route }) => {
     function refresh() {
       savedCallback.current();
     }
-    const id = setInterval(refresh, 3000);
+    const id = setInterval(refresh, 2500);
     return () => clearInterval(id);
-  }, []);
-
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   return (

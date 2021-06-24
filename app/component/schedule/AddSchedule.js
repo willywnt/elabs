@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Image, Modal,
+  View, Text, StyleSheet, TouchableOpacity, Image, Modal, Alert,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
@@ -22,23 +22,29 @@ export default function AddSchedule({ data }) {
   const [lecturerValue, setLecturerValue] = useState('');
 
   const addScheduleHandler = () => {
-    const url = 'http://10.0.2.2:5000/user/schedule';
-    axios
-      .post(url, {
-        ...data, course: courseValue, room: roomValue, time: timeValue, lecturer: lecturerValue,
-      })
-      .then((response) => {
-        const result = response.data;
-        const { data } = result;
-        setShow(false);
-        setCourseValue();
-        setRoomValue();
-        setTimeValue();
-        setLecturerValue();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (courseValue === '' || roomValue === '' || timeValue === '' || lecturerValue === '') {
+      Alert.alert('DO NOT EMPTY!', 'All request must be filled..', [
+        { text: 'OKE', onPress: () => console.log('alert closed') },
+      ]);
+    } else {
+      const url = 'http://10.0.2.2:5000/user/schedule';
+      axios
+        .post(url, {
+          ...data, course: courseValue, room: roomValue, time: timeValue, lecturer: lecturerValue,
+        })
+        .then((response) => {
+          const result = response.data;
+          const { data } = result;
+          setShow(false);
+          setCourseValue('');
+          setRoomValue('');
+          setTimeValue('');
+          setLecturerValue('');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -136,10 +142,10 @@ export default function AddSchedule({ data }) {
               <TouchableOpacity
                 onPress={() => {
                   setShow(false);
-                  setCourseValue();
-                  setRoomValue();
-                  setTimeValue();
-                  setLecturerValue();
+                  setCourseValue('');
+                  setRoomValue('');
+                  setTimeValue('');
+                  setLecturerValue('');
                 }}
                 style={{
                   backgroundColor: '#ffffff',

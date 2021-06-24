@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
-  View, StyleSheet, Text, Image, ScrollView, FlatList, TouchableOpacity, LogBox,
+  View, StyleSheet, Text, Image, ScrollView, FlatList, TouchableOpacity, LogBox, ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../context';
+import { auth } from '../../../firebase';
 
 const Profile = () => {
   // const [setting, setSetting] = useState(false);
@@ -20,9 +21,14 @@ const Profile = () => {
         setStoredUserToken('');
       })
       .catch((error) => console.log(error));
+
+    auth
+      .signOut()
+      .then(() => console.log('User signed out!'));
   };
 
   const [status, setStatus] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const url = `http://10.0.2.2:5000/status/${id}`;
@@ -33,6 +39,7 @@ const Profile = () => {
         const { data } = result;
         const filted = data.filter((item) => item.status_id === 3 || item.status_id === 4);
         setStatus(filted.reverse());
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -123,45 +130,56 @@ const Profile = () => {
 
       <View style={styles.riwayatContainer}>
         <Text style={styles.riwayatTitle}>History</Text>
-        <FlatList
-          data={status}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => {
-            const color = item.status_id === 3 ? '#1EAE4F' : 'red';
-            const statuslab = item.status_id === 3 ? 'Finished' : 'Canceled';
-            return (
-              <View style={styles.riwayat}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={{
-                    fontSize: 20,
-                    color: 'white',
-                    fontWeight: '700',
-                    letterSpacing: 0.1,
-                    marginBottom: 10,
-                  }}
-                  >
-                    {item.id_komputer}
-                  </Text>
-                  <Text style={{ ...statusHistory, color }}>
-                    {statuslab}
-                  </Text>
-                </View>
-                <Text style={{ fontSize: 16, color: 'white', fontWeight: 'bold' }}>Doing task : </Text>
-                <Text style={{ fontSize: 16, color: 'white', marginBottom: 15 }}>{item.keperluan}</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Image source={require('../../../assets/icons/time-icon.png')} style={{ width: 24, height: 24, tintColor: 'white' }} />
-                    <Text style={{ marginLeft: 5, fontSize: 16, color: 'white' }}>{item.jam}</Text>
+        {isLoading ? (
+          <ActivityIndicator
+            style={{
+              flex: 1, justifyContent: 'center', alignSelf: 'center',
+            }}
+            size="large"
+            color="#F88409"
+          />
+        )
+          : (
+            <FlatList
+              data={status}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => {
+                const color = item.status_id === 3 ? '#1EAE4F' : 'red';
+                const statuslab = item.status_id === 3 ? 'Finished' : 'Canceled';
+                return (
+                  <View style={styles.riwayat}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={{
+                        fontSize: 20,
+                        color: 'white',
+                        fontWeight: '700',
+                        letterSpacing: 0.1,
+                        marginBottom: 10,
+                      }}
+                      >
+                        {item.id_komputer}
+                      </Text>
+                      <Text style={{ ...statusHistory, color }}>
+                        {statuslab}
+                      </Text>
+                    </View>
+                    <Text style={{ fontSize: 16, color: 'white', fontWeight: 'bold' }}>Doing task : </Text>
+                    <Text style={{ fontSize: 16, color: 'white', marginBottom: 15 }}>{item.keperluan}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Image source={require('../../../assets/icons/time-icon.png')} style={{ width: 24, height: 24, tintColor: 'white' }} />
+                        <Text style={{ marginLeft: 5, fontSize: 16, color: 'white' }}>{item.jam}</Text>
+                      </View>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Image source={require('../../../assets/icons/calendar-icon.png')} style={{ width: 22, height: 22, tintColor: 'white' }} />
+                        <Text style={{ marginLeft: 10, fontSize: 16, color: 'white' }}>{item.tanggal}</Text>
+                      </View>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Image source={require('../../../assets/icons/calendar-icon.png')} style={{ width: 22, height: 22, tintColor: 'white' }} />
-                    <Text style={{ marginLeft: 10, fontSize: 16, color: 'white' }}>{item.tanggal}</Text>
-                  </View>
-                </View>
-              </View>
-            );
-          }}
-        />
+                );
+              }}
+            />
+          )}
 
       </View>
     </ScrollView>

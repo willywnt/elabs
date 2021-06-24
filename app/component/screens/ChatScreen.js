@@ -1,40 +1,75 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import {
-  View, ScrollView, Text, Button, StyleSheet, Image,
+  View, StyleSheet, Image,
 } from 'react-native';
 
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
+import { auth, db } from '../../../firebase';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-      {
-        _id: 2,
-        text: 'Hello world',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ]);
+  useLayoutEffect(() => {
+    const unsubscribe = db.collection('chats').orderBy('createdAt', 'desc').onSnapshot((snapshot) => setMessages(
+      snapshot.docs.map((doc) => ({
+        _id: doc.data()._id,
+        createdAt: doc.data().createdAt.toDate(),
+        text: doc.data().text,
+        user: doc.data().user,
+      })),
+    ));
+    return unsubscribe;
   }, []);
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: 3,
+  //       text: 'Ini testing',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 3,
+  //         name: 'Winata',
+  //         avatar: 'https://elabsupnvj.my.id/laravel/storage/app/public/images/1-1624095576.png',
+  //       },
+  //     },
+  //     {
+  //       _id: 1,
+  //       text: 'Hello developer',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: 'React Native',
+  //         avatar: 'https://placeimg.com/140/140/any',
+  //       },
+  //     },
+  //     {
+  //       _id: 2,
+  //       text: 'Hello world',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 1,
+  //         name: 'Willy',
+  //         avatar: 'https://placeimg.com/140/140/any',
+  //       },
+  //     },
+
+  //   ]);
+  // }, []);
 
   const onSend = useCallback((messages = []) => {
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
+    const {
+      _id,
+      createdAt,
+      text,
+      user,
+    } = messages[0];
+    db.collection('chats').add({
+      _id,
+      createdAt,
+      text,
+      user,
+    });
   }, []);
 
   const renderSend = (props) => (
@@ -91,11 +126,15 @@ const ChatScreen = () => {
       messages={messages}
       onSend={(messages) => onSend(messages)}
       user={{
-        _id: 1,
+        _id: auth?.currentUser?.email,
+        name: auth?.currentUser?.displayName,
+        avatar: auth?.currentUser?.photoURL,
       }}
       renderBubble={renderBubble}
       alwaysShowSend
       renderSend={renderSend}
+      renderUsernameOnMessage
+      showAvatarForEveryMessage
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
     />
@@ -103,11 +142,3 @@ const ChatScreen = () => {
 };
 
 export default ChatScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

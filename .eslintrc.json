@@ -27,6 +27,7 @@
         "react/prop-types": "off",
         "jsx-no-duplicate-props": "off",
         "default-case": "off",
-        "max-len":"off"
+        "max-len":"off",
+        "no-nested-ternary":"off"
     }
 }

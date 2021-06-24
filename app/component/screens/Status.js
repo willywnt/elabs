@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  View, StyleSheet, Text, Image, FlatList,
+  View, StyleSheet, Text, Image, FlatList, LogBox, ActivityIndicator,
 } from 'react-native';
 
+import moment from 'moment';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../context';
@@ -45,6 +46,7 @@ const Status = ({ navigation }) => {
   const colorAccepted = '#1EAE4F';
 
   const [status, setStatus] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { storedUserToken, setStoredUserToken } = useContext(AuthContext);
   const { id } = storedUserToken;
 
@@ -57,15 +59,28 @@ const Status = ({ navigation }) => {
         const { data } = result;
         const filted = data.filter((item) => item.status_id === 1 || item.status_id === 2);
         setStatus(filted);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   return (
     <View style={styles.container}>
-      {status.length === 0 ? (
+      { isLoading ? (
+        <ActivityIndicator
+          style={{
+            flex: 1, justifyContent: 'center', alignItems: 'center',
+          }}
+          size="large"
+          color="#F88409"
+        />
+      ) : status.length === 0 ? (
         <View style={{
           flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 150,
         }}
@@ -96,12 +111,11 @@ const Status = ({ navigation }) => {
 
       <FlatList
         data={status}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
-          const createdAt = new Date(item.created_at);
-          const updatedAt = new Date(item.updated_at);
-          const created = createdAt.toLocaleString();
-          const updated = updatedAt.toLocaleString();
+          const created = moment(item.created_at).fromNow();
+          const updated = moment(item.updated_at).fromNow();
+
           const color = item.status_id === 1 ? colorWaiting : colorAccepted;
           const statuslab = item.status_id === 1 ? 'Waiting' : 'Accepted';
           return (
@@ -120,7 +134,7 @@ const Status = ({ navigation }) => {
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={{ ...text, color, fontWeight: 'bold' }}>
-                  Create At :
+                  Created :
                   <Text style={{ ...text, color, fontWeight: '600' }}>
                     {' '}
                     {created}
@@ -130,7 +144,7 @@ const Status = ({ navigation }) => {
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={{ ...text, color, fontWeight: 'bold' }}>
-                  Update At :
+                  Updated :
                   <Text style={{ ...text, color, fontWeight: '600' }}>
                     {' '}
                     {updated}

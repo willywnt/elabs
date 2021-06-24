@@ -33,7 +33,7 @@ export default function ChooseComp({ comp, data }) {
           numColumns={numColumns}
           renderItem={({ item }) =>{
             if(item.kode == selectedId.kode && item.[data.sesi] == 1){
-              setSelectedId({id: null,kode : null});
+              setSelectedId({id: '',kode : ''});
             }
            return (
             item.kode == selectedId.kode && item.[data.sesi] != 1 ? 

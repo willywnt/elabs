@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  View, StyleSheet, FlatList, TouchableOpacity, Image, Text,
+  View, StyleSheet, FlatList, TouchableOpacity, Image, Text, LogBox,
 } from 'react-native';
+
+import * as Animatable from 'react-native-animatable';
 
 const Messages = [
   {
@@ -30,38 +32,46 @@ const Messages = [
   },
 ];
 
-const Chat = ({ navigation }) => (
-  <View style={{
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: '#F4F7FF',
-  }}
-  >
-    <FlatList
-      data={Messages}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('ChatScreen')}>
-          <View style={styles.UserInfo}>
-            <View style={styles.UserImgWrapper}>
-              <Image style={styles.UserImg} source={item.userImg} />
-            </View>
-            <View style={styles.TextSection}>
-              <View style={styles.UserInfoText}>
-                <Text style={styles.UserName}>{item.userName}</Text>
-                <Text style={styles.PostTime}>{item.messageTime}</Text>
+const Chat = ({ navigation }) => {
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
+  return (
+    <Animatable.View
+      animation="fadeInUpBig"
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        paddingLeft: 20,
+        paddingRight: 20,
+        backgroundColor: 'white',
+      }}
+    >
+      <FlatList
+        data={Messages}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('ChatScreen')}>
+            <View style={styles.UserInfo}>
+              <View style={styles.UserImgWrapper}>
+                <Image style={styles.UserImg} source={item.userImg} />
               </View>
-              <Text style={styles.MessageText}>{item.messageText}</Text>
+              <View style={styles.TextSection}>
+                <View style={styles.UserInfoText}>
+                  <Text style={styles.UserName}>{item.userName}</Text>
+                  <Text style={styles.PostTime}>{item.messageTime}</Text>
+                </View>
+                <Text style={styles.MessageText}>{item.messageText}</Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      )}
-    />
-  </View>
-);
+          </TouchableOpacity>
+        )}
+      />
+    </Animatable.View>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {

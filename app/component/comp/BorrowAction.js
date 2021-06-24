@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Modal, Image, TextInput,
+  View, Text, StyleSheet, TouchableOpacity, Modal, Image, TextInput, Alert,
 } from 'react-native';
 
 import axios from 'axios';
@@ -17,18 +17,33 @@ export default function BorrowAction({ data }) {
   const dataInsert = { ...data, userId: id, keperluan };
 
   const addBorrowHandler = () => {
-    const url = 'http://10.0.2.2:5000/borrow';
-    axios
-      .post(url, dataInsert)
-      .then((response) => {
-        setShow(true);
-        setTimeout(() => {
-          setInfo(true);
-        }, 2500);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(dataInsert);
+    if (Object.keys(dataInsert.jam).every((x) => dataInsert.jam[x] === '' || dataInsert.jam[x] === null) === true) {
+      Alert.alert('DO NOT EMPTY!', 'Please select time...', [
+        { text: 'OKE' },
+      ]);
+    } else if (typeof dataInsert.compId === 'undefined') {
+      Alert.alert('DO NOT EMPTY!', 'Please select computer...', [
+        { text: 'OKE' },
+      ]);
+    } else if (Object.keys(dataInsert.keperluan).every((x) => dataInsert.keperluan[x] === '' || dataInsert.keperluan[x] === null) === true) {
+      Alert.alert('DO NOT EMPTY!', 'Please input necessary...', [
+        { text: 'OKE' },
+      ]);
+    } else {
+      const url = 'http://10.0.2.2:5000/borrow';
+      axios
+        .post(url, dataInsert)
+        .then((response) => {
+          setShow(true);
+          setTimeout(() => {
+            setInfo(true);
+          }, 2500);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -52,12 +67,12 @@ export default function BorrowAction({ data }) {
         </View>
       </View>
       <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>
-        Keperluan :
+        Necessary :
       </Text>
       <TextInput
         style={styles.input}
         onChangeText={(text) => setKeperluan(text)}
-        placeholder="input keperluan"
+        placeholder="input necessary"
         placeholderTextColor="black"
       />
       <TouchableOpacity

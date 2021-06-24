@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import {
-  Text, View, StyleSheet, TextInput, TouchableOpacity, Dimensions, ActivityIndicator,
+  Text, View, StyleSheet, TextInput, TouchableOpacity, Dimensions, ActivityIndicator, Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from 'react-native-animatable';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import KeyboardAvoidingWrapper from '../KeyboardAvoidingWrapper';
 
 import { AuthContext } from '../context';
+import { auth } from '../../../firebase';
 
 const Login = () => {
   const [message, setMessage] = useState();
@@ -29,7 +30,7 @@ const Login = () => {
         if (status !== 'SUCCESS') {
           handleMessage(message, status);
         } else {
-          persistLogin(data, message, status);
+          persistLogin(data, credentials, message, status);
         }
         setSubmitting(false);
       })
@@ -45,7 +46,22 @@ const Login = () => {
     setMessageType(type);
   };
 
-  const persistLogin = (credentials, message, status) => {
+  const persistLogin = (credentials, passwords, message, status) => {
+    auth
+      .signInWithEmailAndPassword(credentials.email, passwords.password)
+      .then(() => {
+        console.log('User signed in!');
+      })
+      .catch((error) => {
+        Alert.alert(error.message);
+      });
+
+    const update = {
+      displayName: credentials.name,
+      photoURL: credentials.avatar ? `https://elabsupnvj.my.id/laravel/storage/app/public/images/${credentials.avatar}` : 'https://www.jobstreet.co.id/en/cms/employer/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png',
+    };
+    auth.currentUser.updateProfile(update);
+
     AsyncStorage
       .setItem('userToken', JSON.stringify(credentials))
       .then(() => {

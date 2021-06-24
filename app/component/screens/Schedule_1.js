@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, Text, FlatList, Image,
+  View, StyleSheet, Text, FlatList, Image, LogBox,
 } from 'react-native';
 import axios from 'axios';
 
@@ -20,6 +20,10 @@ const Schedule1 = ({ route }) => {
       .catch((error) => {
         console.log(error);
       });
+  }, []);
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   const hours = new Date().getHours();

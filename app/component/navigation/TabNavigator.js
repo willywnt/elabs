@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Text, View, Image, TouchableHighlight, Button,
+  Text, View, Image, TouchableHighlight,
 } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';

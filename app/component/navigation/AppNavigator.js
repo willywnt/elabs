@@ -1,7 +1,4 @@
 import * as React from 'react';
-// import {
-//   StatusBar,
-// } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -17,7 +14,13 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="Home"
+      component={TabNavigator}
+      options={{
+        headerShown: false,
+      }}
+    />
     <Stack.Screen
       name="Schedule"
       component={ScheduleScreen}
