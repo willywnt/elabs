@@ -47,6 +47,17 @@ const Login = () => {
   };
 
   const persistLogin = (credentials, passwords, message, status) => {
+    AsyncStorage
+      .setItem('userToken', JSON.stringify(credentials))
+      .then(() => {
+        handleMessage(message, status);
+        setStoredUserToken(credentials);
+      })
+      .catch((error) => {
+        console.log(error);
+        handleMessage('Persisting login failed');
+      });
+
     auth
       .signInWithEmailAndPassword(credentials.email, passwords.password)
       .then(() => {
@@ -61,17 +72,6 @@ const Login = () => {
       photoURL: credentials.avatar ? `https://elabsupnvj.my.id/laravel/storage/app/public/images/${credentials.avatar}` : 'https://www.jobstreet.co.id/en/cms/employer/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png',
     };
     auth.currentUser.updateProfile(update);
-
-    AsyncStorage
-      .setItem('userToken', JSON.stringify(credentials))
-      .then(() => {
-        handleMessage(message, status);
-        setStoredUserToken(credentials);
-      })
-      .catch((error) => {
-        console.log(error);
-        handleMessage('Persisting login failed');
-      });
   };
 
   return (

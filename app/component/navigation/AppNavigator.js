@@ -49,7 +49,7 @@ const AppNavigator = () => (
       component={BorrowScreen}
       options={({ route }) => ({
         title: route.params.title,
-        headerTitleStyle: { alignSelf: 'center', marginLeft: -60, fontSize: 24 },
+        headerTitleStyle: { alignSelf: 'center', fontSize: 24 },
       })}
     />
     <Stack.Screen

@@ -8,29 +8,59 @@ const Borrow = ({ navigation }) => (
     <View style={styles.borrow}>
       <Text style={styles.floor}>3rd Floor</Text>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Borrow_1', { title: 'Komputer 301', komputer: 'komputer_301', lab: 'LAB 301' })}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Borrow_1', {
+          title: 'Komputer 301', komputer: 'komputer_301', lab: 'LAB 301', group: 'group_lab_301',
+        })}
+      >
         <Text style={styles.text}>Room 301</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Borrow_1', { title: 'Komputer 302', komputer: 'komputer_302', lab: 'LAB 302' })}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Borrow_1', {
+          title: 'Komputer 302', komputer: 'komputer_302', lab: 'LAB 302', group: 'group_lab_302',
+        })}
+      >
         <Text style={styles.text}>Room 302</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Borrow_1', { title: 'Komputer 303', komputer: 'komputer_303', lab: 'LAB 303' })}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Borrow_1', {
+          title: 'Komputer 303', komputer: 'komputer_303', lab: 'LAB 303', group: 'group_lab_303',
+        })}
+      >
         <Text style={styles.text}>Room 303</Text>
       </TouchableOpacity>
 
       <Text style={styles.floor}>4th Floor</Text>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Borrow_1', { title: 'Komputer 401', komputer: 'komputer_401', lab: 'LAB 401' })}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Borrow_1', {
+          title: 'Komputer 401', komputer: 'komputer_401', lab: 'LAB 401', group: 'group_lab_401',
+        })}
+      >
         <Text style={styles.text}>Room 401</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Borrow_1', { title: 'Komputer 402', komputer: 'komputer_402', lab: 'LAB 402' })}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Borrow_1', {
+          title: 'Komputer 402', komputer: 'komputer_402', lab: 'LAB 402', group: 'group_lab_402',
+        })}
+      >
         <Text style={styles.text}>Room 402</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Borrow_1', { title: 'Komputer 403', komputer: 'komputer_403', lab: 'LAB  403' })}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Borrow_1', {
+          title: 'Komputer 403', komputer: 'komputer_403', lab: 'LAB  403', group: 'group_lab_403',
+        })}
+      >
         <Text style={styles.text}>Room 403</Text>
       </TouchableOpacity>
     </View>

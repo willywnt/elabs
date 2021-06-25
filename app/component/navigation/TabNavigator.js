@@ -219,7 +219,7 @@ const TabNavigator = () => (
               height: 60,
               borderRadius: 60 / 2,
               borderWidth: 5,
-              borderColor: '#ffffff',
+              borderColor: '#F4F7FF',
               backgroundColor: focused ? '#F88409' : '#7B8BB2',
               elevation: 1,
             }}

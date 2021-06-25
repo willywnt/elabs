@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef, useLayoutEffect,
+} from 'react';
 import {
-  StyleSheet, ScrollView, ActivityIndicator, Dimensions,
+  StyleSheet, ScrollView, ActivityIndicator, Dimensions, TouchableHighlight, Image, Alert,
 } from 'react-native';
 
 import axios from 'axios';
@@ -9,11 +11,46 @@ import ButtonTimes from '../comp/ButtonTimes';
 
 const { height } = Dimensions.get('window');
 
-const Borrow1 = ({ route }) => {
-  const { komputer, lab } = route.params;
+const Borrow1 = ({ navigation, route }) => {
+  const { komputer, lab, group } = route.params;
   const [comp, setComp] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const savedCallback = useRef();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableHighlight
+          onPress={() => {
+            Alert.alert('Group Chat', `Click OKE to join the group chat ${lab}...`, [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                cancelable: true,
+              },
+              { text: 'OKE', onPress: () => navigation.navigate('ChatScreen', { group }) },
+            ]);
+          }}
+          activeOpacity={0.8}
+          underlayColor="#B9B9B9"
+          style={{
+            width: 40, height: 40, paddingLeft: 0, borderRadius: 40 / 2, justifyContent: 'center', marginRight: 10,
+          }}
+        >
+          <Image
+            source={require('../../../assets/icons/chat-icon.png')}
+            resizeMode="contain"
+            style={{
+              width: 18,
+              height: 18,
+              alignSelf: 'center',
+              tintColor: 'black',
+            }}
+          />
+        </TouchableHighlight>
+      ),
+    });
+  }, [navigation]);
 
   function callback() {
     const url = 'http://10.0.2.2:5000/computer';

@@ -1,16 +1,18 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react';
 import {
-  View, StyleSheet, Image,
+  View, Image, TouchableWithoutFeedback, Keyboard,
 } from 'react-native';
 
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat';
+import axios from 'axios';
 import { auth, db } from '../../../firebase';
 
-const ChatScreen = () => {
+const ChatScreen = ({ route }) => {
   const [messages, setMessages] = useState([]);
+  const { group } = route.params;
 
   useLayoutEffect(() => {
-    const unsubscribe = db.collection('chats').orderBy('createdAt', 'desc').onSnapshot((snapshot) => setMessages(
+    const unsubscribe = db.collection(group).orderBy('createdAt', 'desc').onSnapshot((snapshot) => setMessages(
       snapshot.docs.map((doc) => ({
         _id: doc.data()._id,
         createdAt: doc.data().createdAt.toDate(),
@@ -18,43 +20,9 @@ const ChatScreen = () => {
         user: doc.data().user,
       })),
     ));
+
     return unsubscribe;
   }, []);
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: 3,
-  //       text: 'Ini testing',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 3,
-  //         name: 'Winata',
-  //         avatar: 'https://elabsupnvj.my.id/laravel/storage/app/public/images/1-1624095576.png',
-  //       },
-  //     },
-  //     {
-  //       _id: 1,
-  //       text: 'Hello developer',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //     {
-  //       _id: 2,
-  //       text: 'Hello world',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 1,
-  //         name: 'Willy',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-
-  //   ]);
-  // }, []);
 
   const onSend = useCallback((messages = []) => {
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
@@ -64,12 +32,22 @@ const ChatScreen = () => {
       text,
       user,
     } = messages[0];
-    db.collection('chats').add({
+    db.collection(group).add({
       _id,
       createdAt,
       text,
       user,
     });
+    const url = 'http://10.0.2.2:5000/chat/group';
+    axios
+      .put(url, { lastUser: user.name, lastText: text, group })
+      .then((response) => {
+        const result = response.data;
+        const { data } = result;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const renderSend = (props) => (
@@ -122,22 +100,25 @@ const ChatScreen = () => {
   );
 
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={(messages) => onSend(messages)}
-      user={{
-        _id: auth?.currentUser?.email,
-        name: auth?.currentUser?.displayName,
-        avatar: auth?.currentUser?.photoURL,
-      }}
-      renderBubble={renderBubble}
-      alwaysShowSend
-      renderSend={renderSend}
-      renderUsernameOnMessage
-      showAvatarForEveryMessage
-      scrollToBottom
-      scrollToBottomComponent={scrollToBottomComponent}
-    />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <GiftedChat
+        messages={messages}
+        onSend={(messages) => onSend(messages)}
+        user={{
+          _id: auth?.currentUser?.email,
+          name: auth?.currentUser?.displayName,
+          avatar: auth?.currentUser?.photoURL,
+        }}
+        renderBubble={renderBubble}
+        alwaysShowSend
+        renderSend={renderSend}
+        renderUsernameOnMessage
+        showAvatarForEveryMessage
+        showUserAvatar
+        scrollToBottom
+        scrollToBottomComponent={scrollToBottomComponent}
+      />
+    </TouchableWithoutFeedback>
   );
 };
 
