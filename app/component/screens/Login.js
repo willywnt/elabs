@@ -21,6 +21,7 @@ const Login = () => {
 
   const handleLogin = (credentials, setSubmitting) => {
     handleMessage(null);
+
     const url = 'http://10.0.2.2:5000/login';
     axios
       .post(url, credentials)
@@ -187,6 +188,7 @@ const Login = () => {
                   >
                     <Text style={{ fontSize: 18, color: 'white', textAlign: 'center' }}>LOGIN</Text>
                   </TouchableOpacity>
+
                   )}
                   {isSubmitting && (
                   <TouchableOpacity
@@ -196,7 +198,6 @@ const Login = () => {
                     <ActivityIndicator size="large" color="white" />
                   </TouchableOpacity>
                   )}
-
                 </View>
               )}
             </Formik>

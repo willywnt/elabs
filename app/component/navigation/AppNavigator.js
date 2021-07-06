@@ -55,10 +55,10 @@ const AppNavigator = () => (
     <Stack.Screen
       name="ChatScreen"
       component={ChatScreen}
-      options={{
+      options={({ route }) => ({
+        title: route.params.title,
         headerTitleStyle: { alignSelf: 'center', marginLeft: -60, fontSize: 24 },
-        title: 'Chat',
-      }}
+      })}
     />
     <Stack.Screen
       name="Schedule_1"

@@ -36,7 +36,7 @@ export default function ButtonTimes({ comp, data }) {
   const times = hours * 60 + min;
 
   let defaultActive = 0;
-  let defultTime = '';
+  let defultTime = '08:00 - 09:40';
   let defaultSesi = 'sesi_1';
 
   if (times >= 390 && times <= 579) {
@@ -55,6 +55,10 @@ export default function ButtonTimes({ comp, data }) {
     defaultActive = 3;
     defaultSesi = 'sesi_4';
     defultTime = '15:00 - 16:40';
+  } else if (times >= 1000) {
+    defaultActive = 4;
+    defaultSesi = 'expired';
+    defultTime = 'None';
   }
 
   const [active, setActive] = useState(defaultActive);
@@ -64,51 +68,93 @@ export default function ButtonTimes({ comp, data }) {
   return (
     <View style={styles.buttonContainer}>
       <View style={{ flexDirection: 'row', marginTop: 15 }}>
-        <TouchableOpacity
-          style={active === 0 ? { ...btnActive, marginRight: 15 }
-            : { ...btnAvailable, marginRight: 15 }}
-          onPress={() => {
-            setActive(0);
-            setJam('08:00 - 09:40');
-            setSesi('sesi_1');
-          }}
-        >
-          <Text>08:00 - 09:40</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={active === 1 ? btnActive
-            : btnAvailable}
-          onPress={() => {
-            setActive(1);
-            setJam('10:00 - 11:40');
-            setSesi('sesi_2');
-          }}
-        >
-          <Text>10:00 - 11:40</Text>
-        </TouchableOpacity>
+        {defaultActive > 0
+          ? (
+            <TouchableOpacity
+              style={{ ...btnNotAvailable, marginRight: 15 }}
+              disabled
+            >
+              <Text>08:00 - 09:40</Text>
+            </TouchableOpacity>
+          )
+
+          : (
+            <TouchableOpacity
+              style={active === 0 ? { ...btnActive, marginRight: 15 }
+                : { ...btnAvailable, marginRight: 15 }}
+              onPress={() => {
+                setActive(0);
+                setJam('08:00 - 09:40');
+                setSesi('sesi_1');
+              }}
+            >
+              <Text>08:00 - 09:40</Text>
+            </TouchableOpacity>
+          )}
+        {defaultActive > 1
+          ? (
+            <TouchableOpacity
+              style={btnNotAvailable}
+              disabled
+            >
+              <Text>10:00 - 11:40</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={active === 1 ? btnActive
+                : btnAvailable}
+              onPress={() => {
+                setActive(1);
+                setJam('10:00 - 11:40');
+                setSesi('sesi_2');
+              }}
+            >
+              <Text>10:00 - 11:40</Text>
+            </TouchableOpacity>
+          )}
       </View>
       <View style={{ flexDirection: 'row', marginTop: 15 }}>
-        <TouchableOpacity
-          style={active === 2 ? { ...btnActive, marginRight: 15 }
-            : { ...btnAvailable, marginRight: 15 }}
-          onPress={() => {
-            setActive(2);
-            setJam('13:00 - 14:40');
-            setSesi('sesi_3');
-          }}
-        >
-          <Text>13:00 - 14:40</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={active === 3 ? btnActive : btnAvailable}
-          onPress={() => {
-            setActive(3);
-            setJam('15:00 - 16:40');
-            setSesi('sesi_4');
-          }}
-        >
-          <Text>15:00 - 16:40</Text>
-        </TouchableOpacity>
+        {defaultActive > 2
+          ? (
+            <TouchableOpacity
+              style={{ ...btnNotAvailable, marginRight: 15 }}
+              disabled
+            >
+              <Text>13:00 - 14:40</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={active === 2 ? { ...btnActive, marginRight: 15 }
+                : { ...btnAvailable, marginRight: 15 }}
+              onPress={() => {
+                setActive(2);
+                setJam('13:00 - 14:40');
+                setSesi('sesi_3');
+              }}
+            >
+              <Text>13:00 - 14:40</Text>
+            </TouchableOpacity>
+          )}
+        {defaultActive > 3
+          ? (
+            <TouchableOpacity
+              style={btnNotAvailable}
+              disabled
+            >
+              <Text>15:00 - 16:40</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={active === 3 ? btnActive : btnAvailable}
+              onPress={() => {
+                setActive(3);
+                setJam('15:00 - 16:40');
+                setSesi('sesi_4');
+              }}
+            >
+              <Text>15:00 - 16:40</Text>
+            </TouchableOpacity>
+          )}
       </View>
       <ChooseComp
         comp={comp}

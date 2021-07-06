@@ -40,7 +40,7 @@ export default function ChooseComp({ comp, data }) {
             <TouchableOpacity style={{...styleComp, backgroundColor: '#F88409', borderColor: '#F88409'}} onPress={()=> {setSelectedId(!selectedId); }}/>
             : item.[data.sesi] == 0 ? 
               <TouchableOpacity style={{...styleComp, backgroundColor: 'white', borderColor: '#C4C4C4'}} onPress={()=> {setSelectedId({id: item.id, kode: item.kode}); }} />
-             : item.[data.sesi] == 1 ? 
+             : item.[data.sesi] == 1 || item.[data.sesi] === 'expired' ? 
              <TouchableOpacity style={{...styleComp, backgroundColor: '#C4C4C4', borderColor: '#C4C4C4'}} disabled />
               : null
             )}}

@@ -3,7 +3,6 @@ import {
   View, StyleSheet, FlatList, TouchableOpacity, Image, Text, LogBox, ActivityIndicator,
 } from 'react-native';
 
-import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
@@ -46,14 +45,14 @@ const Chat = ({ navigation }) => {
     height: 54,
   };
   return (
-    <Animatable.View
-      animation="fadeInUpBig"
+    <View
       style={{
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
         paddingLeft: '5%',
         paddingRight: '5%',
+        paddingVertical: 10,
         backgroundColor: '#F4F7FF',
       }}
     >
@@ -70,7 +69,7 @@ const Chat = ({ navigation }) => {
           data={Message}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('ChatScreen', { group: item.group })}>
+            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('ChatScreen', { group: item.group, title: item.group_name })}>
               <View style={styles.UserInfo}>
                 <View style={{ ...groupImgWrapper, backgroundColor: item.bg_color }}>
                   <Image style={styles.groupImg} source={imageGroup} />
@@ -96,7 +95,7 @@ const Chat = ({ navigation }) => {
         />
       )}
 
-    </Animatable.View>
+    </View>
   );
 };
 

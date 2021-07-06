@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useRef, useLayoutEffect,
 } from 'react';
 import {
-  StyleSheet, ScrollView, ActivityIndicator, Dimensions, TouchableHighlight, Image, Alert,
+  StyleSheet, ScrollView, ActivityIndicator, Dimensions, TouchableHighlight, Image,
 } from 'react-native';
 
 import axios from 'axios';
@@ -21,16 +21,7 @@ const Borrow1 = ({ navigation, route }) => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableHighlight
-          onPress={() => {
-            Alert.alert('Group Chat', `Click OKE to join the group chat ${lab}...`, [
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                cancelable: true,
-              },
-              { text: 'OKE', onPress: () => navigation.navigate('ChatScreen', { group }) },
-            ]);
-          }}
+          onPress={() => navigation.navigate('ChatScreen', { group, title: `FIK ${lab}` })}
           activeOpacity={0.8}
           underlayColor="#B9B9B9"
           style={{
