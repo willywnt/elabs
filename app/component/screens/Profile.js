@@ -48,7 +48,7 @@ const Profile = () => {
 
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
+  }, [status]);
 
   // useLayoutEffect(() => {
   //   navigation.setOptions({
@@ -105,7 +105,7 @@ const Profile = () => {
             <Text style={styles.nim}>{username}</Text>
             <TouchableOpacity onPress={clearLogin}>
               <Text style={{
-                marginTop: 10, fontSize: 18, color: 'black',
+                marginTop: 10, fontSize: 18, color: 'red',
               }}
               >
                 Logout
@@ -118,7 +118,7 @@ const Profile = () => {
             color: '#0D253C', fontSize: 18, fontWeight: '600',
           }}
           >
-            {angkatan}
+            Description
           </Text>
           <View style={{
             width: '100%', height: 0.5, backgroundColor: '#0D253C', marginBottom: 10, marginTop: 10,
