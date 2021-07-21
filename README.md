@@ -16,7 +16,7 @@ Project ini terintegrasi dengan project sebelumnya pada website peminjaman lab d
 
 ## Installation
 
-sebelum mencobanya, diharapkan jalankan npm install agar terinstall semua packet depedencies pada project ini. dan jangan lupa install web servernya pada ...
+sebelum mencobanya, diharapkan jalankan npm install agar terinstall semua packet depedencies pada project ini. dan jangan lupa install web servernya pada https://github.com/willywnt/backend-elabs
 
 ```bash
 npm install
