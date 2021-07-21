@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useContext, useRef,
+  useState, useEffect, useContext,
 } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Image, FlatList, LogBox,
@@ -13,8 +13,6 @@ export default function ItemSchedule() {
   const [yourSchedule, setYourSchedule] = useState([]);
   const [trash, setTrash] = useState();
   const [day, setDay] = useState('monday');
-  // const isFocused = useIsFocused();
-  const savedCallback = useRef();
   const { storedUserToken, setStoredUserToken } = useContext(AuthContext);
   const { id } = storedUserToken;
 
@@ -31,7 +29,7 @@ export default function ItemSchedule() {
       });
   };
 
-  function callback() {
+  const fetchData = () => {
     const url = `http://10.0.2.2:5000/user/schedule/${id}`;
     axios
       .post(url, { day })
@@ -43,18 +41,11 @@ export default function ItemSchedule() {
       .catch((error) => {
         console.log(error);
       });
-  }
-  useEffect(() => {
-    savedCallback.current = callback;
-  });
+  };
 
   useEffect(() => {
-    function refresh() {
-      savedCallback.current();
-    }
-    const idx = setInterval(refresh, 500);
-    return () => clearInterval(idx);
-  }, []);
+    fetchData();
+  }, [yourSchedule]);
 
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
