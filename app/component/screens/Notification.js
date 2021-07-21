@@ -5,14 +5,14 @@ import {
 
 import moment from 'moment';
 import axios from 'axios';
-import { useIsFocused } from '@react-navigation/native';
+// import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../context';
 
 const Notification = () => {
-  const isFocused = useIsFocused();
+  // const isFocused = useIsFocused();
   const [notification, setNotification] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [idNotification, setIdNotification] = useState(null);
+  // const [idNotification, setIdNotification] = useState(null);
   const { storedUserToken, setStoredUserToken } = useContext(AuthContext);
   const { id } = storedUserToken;
 
@@ -35,21 +35,25 @@ const Notification = () => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const readHandler = (idx) => {
-    const url = `http://10.0.2.2:5000/notification/read/${idx}`;
-    axios
-      .post(url)
-      .then((response) => {
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
-    readHandler(idNotification);
     fetchData();
-  }, [idNotification, isFocused, readHandler(idNotification), fetchData]);
+  }, []);
+
+  // const readHandler = (idx) => {
+  //   const url = `http://10.0.2.2:5000/notification/read/${idx}`;
+  //   axios
+  //     .post(url)
+  //     .then((response) => {
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   readHandler(idNotification);
+  //   fetchData();
+  // }, [idNotification, isFocused, readHandler(idNotification), fetchData]);
 
   return (
     <ScrollView style={styles.container}>
@@ -68,8 +72,7 @@ const Notification = () => {
               data={notification}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
-
-                <TouchableOpacity onPress={() => setIdNotification(item.id)} disabled={item.reading !== 0}>
+                <TouchableOpacity disabled={item.reading !== 0}>
                   <View style={item.reading === 0 ? styles.notificationUnread : styles.notificationRead}>
                     <View style={styles.header}>
                       <Text style={styles.title}>{item.title}</Text>
@@ -84,28 +87,6 @@ const Notification = () => {
               )}
             />
           )}
-        {/* <View style={styles.notificationUnread}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Admin</Text>
-            <Text style={styles.time}>Just Now</Text>
-          </View>
-          <View style={styles.info}>
-            <Text>warning!!!</Text>
-            <Text>you get a moderate offense</Text>
-          </View>
-          <View style={styles.indicatorUnread} />
-        </View>
-        <View style={styles.notificationRead}>
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.title}>System message</Text>
-              <Text style={styles.time}>1 hour ago</Text>
-            </View>
-            <View style={styles.info}>
-              <Text>Please update your profile</Text>
-            </View>
-          </View>
-        </View> */}
       </View>
     </ScrollView>
   );
