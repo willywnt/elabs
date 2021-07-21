@@ -9,15 +9,14 @@ import { AuthContext } from '../context';
 export default function BorrowAction({ data }) {
   const [show, setShow] = useState(false);
   const [info, setInfo] = useState(false);
+  const [lastData, setLastData] = useState({});
   const [keperluan, setKeperluan] = useState('');
   const day = new Date().getDate();
   const { storedUserToken, setStoredUserToken } = useContext(AuthContext);
   const { id } = storedUserToken;
 
   const dataInsert = { ...data, userId: id, keperluan };
-
   const addBorrowHandler = () => {
-    console.log(dataInsert);
     if (Object.keys(dataInsert.jam).every((x) => dataInsert.jam[x] === '' || dataInsert.jam[x] === null) === true) {
       Alert.alert('DO NOT EMPTY!', 'Please select time...', [
         { text: 'OKE' },
@@ -30,11 +29,16 @@ export default function BorrowAction({ data }) {
       Alert.alert('DO NOT EMPTY!', 'Please input necessary...', [
         { text: 'OKE' },
       ]);
+    } else if (lastData.id === dataInsert.id) {
+      Alert.alert('COMPUTER FULL!', 'Please choose another computer...', [
+        { text: 'OKE' },
+      ]);
     } else {
       const url = 'http://10.0.2.2:5000/borrow';
       axios
         .post(url, dataInsert)
         .then((response) => {
+          setLastData(dataInsert);
           setShow(true);
           setTimeout(() => {
             setInfo(true);

@@ -32,9 +32,6 @@ export default function ChooseComp({ comp, data }) {
           data={comp}   
           numColumns={numColumns}
           renderItem={({ item }) =>{
-            if(item.kode == selectedId.kode && item.[data.sesi] == 1){
-              setSelectedId({id: '',kode : ''});
-            }
            return (
             item.kode == selectedId.kode && item.[data.sesi] != 1 ? 
             <TouchableOpacity style={{...styleComp, backgroundColor: '#F88409', borderColor: '#F88409'}} onPress={()=> {setSelectedId(!selectedId); }}/>
