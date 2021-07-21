@@ -13,7 +13,7 @@ const Profile = () => {
   const isFocused = useIsFocused();
   const { storedUserToken, setStoredUserToken } = useContext(AuthContext);
   const {
-    name, username, avatar, angkatan, deskripsi, id,
+    name, username, avatar, deskripsi, id,
   } = storedUserToken;
   const clearLogin = () => {
     AsyncStorage.removeItem('userToken')

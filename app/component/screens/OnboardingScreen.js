@@ -96,7 +96,7 @@ export default function OnboardingScreen({ navigation }) {
           backgroundColor: '#fff',
           image: <Image source={require('../../../assets/onboarding_1.png')} style={{ width: '80%', resizeMode: 'contain', marginTop: -50 }} />,
           title: 'BOOK COMPUTER',
-          subtitle: 'This application makes it easy for you to borrow a computer',
+          subtitle: 'Choose your computer and apply for a loan',
         },
         {
           backgroundColor: '#fff',
