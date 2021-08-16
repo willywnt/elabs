@@ -14,6 +14,7 @@ const Profile = () => {
     name, username, avatar, deskripsi, id,
   } = storedUserToken;
   const clearLogin = () => {
+    const abortController = new AbortController();
     AsyncStorage.removeItem('userToken')
       .then(() => {
         setStoredUserToken('');
@@ -23,6 +24,10 @@ const Profile = () => {
     auth
       .signOut()
       .then(() => console.log('User signed out!'));
+
+    return () => {
+      abortController.abort();
+    };
   };
 
   const [status, setStatus] = useState([]);
@@ -40,11 +45,13 @@ const Profile = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
-
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, [status]);
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
 
   // useLayoutEffect(() => {
   //   navigation.setOptions({

@@ -38,7 +38,6 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
         setSubmitting(false);
-        handleMessage('An error occurred. Check your network and try again');
       });
   };
 
