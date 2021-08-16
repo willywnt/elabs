@@ -4,13 +4,11 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../context';
 import { auth } from '../../../firebase';
 
 const Profile = () => {
   // const [setting, setSetting] = useState(false);
-  const isFocused = useIsFocused();
   const { storedUserToken, setStoredUserToken } = useContext(AuthContext);
   const {
     name, username, avatar, deskripsi, id,
@@ -44,9 +42,7 @@ const Profile = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [isFocused]);
 
-  useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, [status]);
 
